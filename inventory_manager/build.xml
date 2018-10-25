@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="StockManager" default="compile" basedir=".">
+
+	<property name="src" location="src/app"/>
+	<property name="build" location="build"/>
+
+	<property name="phidgets" location="src/api/phidgets/phidget22.jar"/>
+	<property name="jdbc" location="src/api/connector-j/mysql-connector-java-5.1.43-bin.jar"/>
+
+	<target name="compile">
+		<delete dir="${build}/app"/>
+		<javac includeantruntime="false"
+			encoding="utf-8"
+			srcdir="${src}/system;${src}/sql;${src}/rfid;${src}/model;${src}/view;${src}/controller"
+			destdir="${build}"
+			classpath="${phidgets};${jdbc}"
+		/>
+	</target>
+
+	<target name="jar">
+		<jar jarfile="StockManager.jar" basedir="${build}">
+			<manifest>
+				<attribute name="Main-Class" value="app.controller.Controller"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="exe">
+		<java jar="StockManager.jar" fork="true" />
+	</target>
+
+	<target name="all">
+		<delete dir="${build}/app"/>
+		<javac includeantruntime="false"
+			encoding="utf-8"
+			srcdir="${src}/system;${src}/sql;${src}/rfid;${src}/model;${src}/view;${src}/controller"
+			destdir="${build}"
+			classpath="${phidgets};${jdbc}"
+		/>
+		<jar jarfile="StockManager.jar" basedir="${build}">
+			<manifest>
+				<attribute name="Main-Class" value="app.controller.Controller"/>
+			</manifest>
+		</jar>
+		<java jar="StockManager.jar" fork="true" />
+	</target>
+
+</project>
